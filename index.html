@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tổng hợp Bài tập Frontend</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --primary: #38bdf8;
+      --primary-soft: rgba(56, 189, 248, 0.15);
+      --accent: #a78bfa;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --radius: 16px;
+      --shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+    header {
+      padding: 40px 20px 30px;
+      text-align: center;
+      background: linear-gradient(180deg, #1e293b 0%, var(--bg) 100%);
+      border-bottom: 1px solid #334155;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    header p {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+    }
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    }
+    .card-banner {
+      height: 120px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.2rem;
+    }
+    .card-banner.b1 { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .card-banner.b2 { background: linear-gradient(135deg, #4c1d95, #8b5cf6); }
+    .card-banner.b3 { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+    .card-banner.b4 { background: linear-gradient(135deg, #9a3412, #f97316); }
+    .card-banner.b5 { background: linear-gradient(135deg, #065f46, #10b981); }
+    .card-banner.b6 { background: linear-gradient(135deg, #1e40af, #60a5fa); }
+    .card-body {
+      padding: 20px 20px 24px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-body h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .card-body p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      flex: 1;
+      margin-bottom: 16px;
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 12px;
+    }
+    .btn-open {
+      background: var(--primary);
+      color: #0f172a;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    footer {
+      text-align: center;
+      padding: 24px 20px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid #334155;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.55rem; }
+      .card-banner { height: 100px; font-size: 2.6rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tổng hợp Bài tập Frontend</h1>
+    <p>Chọn bài tập bên dưới để xem demo đầy đủ (HTML + CSS + JavaScript)</p>
+  </header>
+
+  <main>
+    <div class="grid">
+      <a href="baitap01.html" class="card">
+        <div class="card-banner b1">📱</div>
+        <div class="card-body">
+          <h2>Bài 1 – Danh sách sản phẩm</h2>
+          <p>Hiển thị danh sách sản phẩm từ mảng JavaScript, tìm kiếm theo tên (không phân biệt hoa thường), giao diện responsive bằng Grid.</p>
+          <div class="card-footer">
+            <span class="card-tag">HTML • CSS • JS</span>
+            <span class="btn-open">Mở bài →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="baitap02.html" class="card">
+        <div class="card-banner b2">📝</div>
+        <div class="card-body">
+          <h2>Bài 2 – Form đăng ký</h2>
+          <p>Form đăng ký với validation email & mật khẩu mạnh, lưu dữ liệu vào LocalStorage, thông báo thành công.</p>
+          <div class="card-footer">
+            <span class="card-tag">HTML • CSS • JS</span>
+            <span class="btn-open">Mở bài →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="baitap03.html" class="card">
+        <div class="card-banner b3">⏱️</div>
+        <div class="card-body">
+          <h2>Bài 3 – Đồng hồ đếm ngược</h2>
+          <p>Countdown 10 phút (MM:SS), setInterval, animation khi dưới 1 phút, modal thông báo khi hết giờ.</p>
+          <div class="card-footer">
+            <span class="card-tag">HTML • CSS • JS</span>
+            <span class="btn-open">Mở bài →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="lithuyet.html" class="card">
+        <div class="card-banner b4">📚</div>
+        <div class="card-body">
+          <h2>Lý thuyết – 4 Câu hỏi</h2>
+          <p>Position relative/absolute, Domain & DNS, let/const/var + Hoisting, Event Delegation. Có demo tương tác.</p>
+          <div class="card-footer">
+            <span class="card-tag">HTML • CSS • JS</span>
+            <span class="btn-open">Mở bài →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="baitap22.html" class="card">
+        <div class="card-banner b5">📊</div>
+        <div class="card-body">
+          <h2>Kết quả bài thi</h2>
+          <p>Trang thống kê hiệu suất làm bài của <strong>Nguyễn Văn Phước</strong> – 90% câu đúng.</p>
+          <div class="card-footer">
+            <span class="card-tag">HTML • CSS • JS</span>
+            <span class="btn-open">Mở bài →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="ThongTinDiemDanh.html" class="card">
+        <div class="card-banner b6">📁</div>
+        <div class="card-body">
+          <h2>Tài liệu Google Drive</h2>
+          <p>Trang liên kết đến file Google Drive của <strong>Nguyễn Văn Phước</strong>.</p>
+          <div class="card-footer">
+            <span class="card-tag">HTML • CSS</span>
+            <span class="btn-open">Mở bài →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    Tổng hợp bài tập Frontend • HTML + CSS + JavaScript
+  </footer>
+</body>
+</html>

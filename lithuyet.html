@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ghi chú Frontend & Deploy – 4 Câu hỏi</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --surface-2: #334155;
+      --primary: #38bdf8;
+      --primary-soft: rgba(56, 189, 248, 0.12);
+      --accent: #a78bfa;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --success: #34d399;
+      --warning: #fbbf24;
+      --danger: #f87171;
+      --radius: 14px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      min-height: 100vh;
+    }
+
+    /* ===== Header ===== */
+    header {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      border-bottom: 1px solid var(--surface-2);
+      padding: 28px 20px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    header h1 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    /* ===== Navigation ===== */
+    nav {
+      max-width: 960px;
+      margin: 20px auto 0;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      padding: 8px 16px;
+      background: var(--surface);
+      color: var(--muted);
+      text-decoration: none;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    nav a:hover,
+    nav a.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border-color: rgba(56, 189, 248, 0.3);
+    }
+
+    /* ===== Main Content ===== */
+    main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    .question-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      margin-bottom: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .question-header {
+      padding: 20px 24px;
+      background: linear-gradient(90deg, rgba(56, 189, 248, 0.08), transparent);
+      border-bottom: 1px solid var(--surface-2);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .q-badge {
+      background: var(--primary);
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 6px 12px;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .question-header h2 {
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+
+    .question-body {
+      padding: 24px;
+    }
+
+    .section-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 22px 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
+    }
+
+    p, li {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    ul, ol {
+      padding-left: 20px;
+      margin: 8px 0 12px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+
+    strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Code block */
+    .code-block {
+      background: #0b1220;
+      border: 1px solid var(--surface-2);
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 12px 0 16px;
+      overflow-x: auto;
+      font-family: "SF Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
+      font-size: 0.85rem;
+      line-height: 1.55;
+      color: #e2e8f0;
+      position: relative;
+    }
+
+    .code-block .comment {
+      color: #64748b;
+    }
+
+    .code-block .keyword {
+      color: #c084fc;
+    }
+
+    .code-block .string {
+      color: #34d399;
+    }
+
+    .code-block .func {
+      color: #38bdf8;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--surface-2);
+      color: var(--muted);
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary);
+      color: #0f172a;
+    }
+
+    /* Demo Card for Câu 1 */
+    .demo-wrapper {
+      margin: 18px 0;
+      padding: 20px;
+      background: #0b1220;
+      border-radius: 12px;
+      border: 1px solid var(--surface-2);
+    }
+
+    .demo-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .product-card {
+      position: relative;
+      background: linear-gradient(145deg, #1e293b, #0f172a);
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 24px 20px 20px;
+      max-width: 280px;
+      transition: transform 0.2s;
+    }
+
+    .product-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: var(--danger);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      box-shadow: 0 4px 12px rgba(248, 113, 113, 0.4);
+    }
+
+    .product-card h4 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+    }
+
+    .product-card .price {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.15rem;
+    }
+
+    .product-card .old-price {
+      color: var(--muted);
+      text-decoration: line-through;
+      font-size: 0.85rem;
+      margin-left: 8px;
+    }
+
+    /* Highlight box */
+    .note-box {
+      background: var(--primary-soft);
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    .warning-box {
+      background: rgba(251, 191, 36, 0.1);
+      border-left: 4px solid var(--warning);
+      padding: 12px 16px;
+      border-radius: 0 8px 8px 0;
+      margin: 14px 0;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+
+    /* Table-like comparison */
+    .compare-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin: 14px 0;
+    }
+
+    .compare-item {
+      background: #0b1220;
+      border: 1px solid var(--surface-2);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .compare-item h4 {
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+      color: var(--primary);
+    }
+
+    .compare-item ul {
+      padding-left: 16px;
+      margin: 0;
+    }
+
+    .compare-item li {
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 24px 20px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--surface-2);
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .compare-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 1.3rem;
+      }
+
+      .question-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .time-display {
+        font-size: 3.2rem;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-inner">
+      <h1>Ghi chú Frontend & Deploy</h1>
+      <p>4 câu hỏi ôn tập – HTML • CSS • JavaScript • Hosting</p>
+      <nav>
+        <a href="#cau1" class="nav-link">Câu 1 – Position</a>
+        <a href="#cau2" class="nav-link">Câu 2 – Domain & DNS</a>
+        <a href="#cau3" class="nav-link">Câu 3 – let/const/var</a>
+        <a href="#cau4" class="nav-link">Câu 4 – Event Delegation</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==================== CÂU 1 ==================== -->
+    <section class="question-card" id="cau1">
+      <div class="question-header">
+        <span class="q-badge">Câu 1 • 10 điểm</span>
+        <h2>position: relative vs position: absolute</h2>
+      </div>
+      <div class="question-body">
+        <div class="section-title">🔹 position: relative</div>
+        <p>
+          Phần tử <strong>giữ nguyên vị trí ban đầu</strong> trong dòng chảy tài liệu (document flow).
+          Các thuộc tính <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>
+          dịch chuyển nó tương quan với vị trí gốc mà <strong>không làm ảnh hưởng</strong> đến vị trí các phần tử xung quanh.
+        </p>
+
+        <div class="section-title">🔹 position: absolute</div>
+        <p>
+          Phần tử bị <strong>tách hoàn toàn</strong> khỏi dòng chảy tài liệu.
+          Vị trí của nó được tính dựa trên phần tử cha gần nhất có <code>position</code> khác <code>static</code>
+          (thường là cha có <code>position: relative</code>).
+        </p>
+
+        <div class="section-title">🔹 Ví dụ Layout Responsive</div>
+        <p>
+          Tạo một <strong>Card sản phẩm</strong> (Card relative) chứa một <strong>Badge nhãn "Giảm giá 20%"</strong>
+          ở góc trên bên phải (Badge absolute). Khi kích thước màn hình co giãn, Badge vẫn dính chặt góc trên bên phải của Card.
+        </p>
+
+        <div class="demo-wrapper">
+          <div class="demo-label">Demo thực tế (Card relative + Badge absolute)</div>
+          <div class="product-card">
+            <span class="badge">Giảm 20%</span>
+            <h4>Tai nghe Bluetooth Pro</h4>
+            <div>
+              <span class="price">1.200.000₫</span>
+              <span class="old-price">1.500.000₫</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="comment">/* Card cha */</span>
+.product-card {
+  <span class="keyword">position</span>: relative;
+  ...
+}
+
+<span class="comment">/* Badge con */</span>
+.badge {
+  <span class="keyword">position</span>: absolute;
+  top: 12px;
+  right: 12px;
+}
+        </div>
+
+        <div class="section-title">🔹 Ảnh hưởng khi Deploy / Hosting</div>
+        <p>
+          CSS chỉ xử lý phía client, không bị ảnh hưởng trực tiếp bởi hạ tầng server hosting.
+          Tuy nhiên, việc dùng sai <code>absolute</code> (ví dụ cố định pixel <code>top: 100px; left: 500px</code>)
+          sẽ khiến giao diện vỡ trên di động khi deploy ra môi trường thực tế.
+        </p>
+        <div class="note-box">
+          Cần kết hợp <strong>Media Queries (@media)</strong> hoặc <strong>Flexbox / Grid</strong> để đảm bảo responsive.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CÂU 2 ==================== -->
+    <section class="question-card" id="cau2">
+      <div class="question-header">
+        <span class="q-badge">Câu 2 • 10 điểm</span>
+        <h2>Quy trình Đăng ký Domain, Cấu hình Hosting & DNS</h2>
+      </div>
+      <div class="question-body">
+        <div class="section-title">🔹 Quy trình</div>
+        <ol>
+          <li>
+            <strong>Đăng ký Domain:</strong> Mua tên miền qua Nhà cung cấp
+            (Tên miền Việt Nam, PA Vietnam, GoDaddy, Cloudflare…).
+          </li>
+          <li>
+            <strong>Đăng ký / Khởi tạo Hosting:</strong>
+            Hosting truyền thống (cPanel / DirectAdmin) hoặc
+            Serverless Static Hosting (GitHub Pages, Netlify, Vercel).
+          </li>
+          <li>
+            <strong>Cấu hình DNS:</strong>
+            Trỏ bản ghi <code>A Record</code> đến IP Server hoặc
+            <code>CNAME Record</code> đến domain hosting của Netlify / GitHub Pages.
+          </li>
+        </ol>
+
+        <div class="section-title">🔹 Vai trò của DNS</div>
+        <p>
+          Hệ thống phân giải tên miền (Domain Name System) đóng vai trò như
+          <strong>“danh bạ Internet”</strong>, dịch tên miền dễ nhớ
+          (ví dụ: <code>mysite.com</code>) thành địa chỉ IP máy chủ
+          (<code>192.0.2.1</code>).
+        </p>
+
+        <div class="section-title">🔹 2 Công cụ Free Deploy Static Web</div>
+        <ul>
+          <li>
+            <strong>GitHub Pages:</strong> Đẩy code lên GitHub repository, bật Pages trong Settings.
+          </li>
+          <li>
+            <strong>Netlify / Vercel:</strong> Kết nối trực tiếp với GitHub repo để tự động deploy mỗi khi push code (CI/CD).
+          </li>
+        </ul>
+
+        <div class="section-title">🔹 Rủi ro bảo mật khi cấu hình sai</div>
+        <div class="warning-box">
+          <ul style="margin:0; padding-left:18px;">
+            <li>
+              <strong>Thiếu SSL/TLS (chưa có HTTPS):</strong>
+              Dữ liệu gửi đi dạng plain-text dễ bị đánh cắp (Man-in-the-Middle attack).
+            </li>
+            <li>
+              <strong>Sai bản ghi DNS hoặc lộ IP gốc:</strong>
+              Dễ bị tấn công DDoS, DNS Hijacking hoặc giả mạo tên miền.
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CÂU 3 ==================== -->
+    <section class="question-card" id="cau3">
+      <div class="question-header">
+        <span class="q-badge">Câu 3 • 10 điểm</span>
+        <h2>So sánh let, const, var – Hoisting & Debugging</h2>
+      </div>
+      <div class="question-body">
+        <div class="section-title">🔹 So sánh nhanh</div>
+        <div class="compare-grid">
+          <div class="compare-item">
+            <h4>var</h4>
+            <ul>
+              <li>Function Scope</li>
+              <li>Có Hoisting (undefined)</li>
+              <li>Cho phép khai báo lại</li>
+              <li>Cho phép gán lại</li>
+            </ul>
+          </div>
+          <div class="compare-item">
+            <h4>let</h4>
+            <ul>
+              <li>Block Scope {}</li>
+              <li>Hoisting + TDZ</li>
+              <li>Không khai báo lại</li>
+              <li>Cho phép gán lại</li>
+            </ul>
+          </div>
+          <div class="compare-item">
+            <h4>const</h4>
+            <ul>
+              <li>Block Scope {}</li>
+              <li>Hoisting + TDZ</li>
+              <li>Không khai báo lại</li>
+              <li>Không gán lại (primitive)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section-title">🔹 Ví dụ lỗi thường gặp</div>
+        <p><strong>Lỗi do dùng var trong vòng lặp bất đồng bộ:</strong></p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="keyword">for</span> (<span class="keyword">var</span> i = 0; i &lt; 3; i++) {
+  <span class="func">setTimeout</span>(() =&gt; <span class="func">console.log</span>(i), 1000);
+  <span class="comment">// In ra: 3, 3, 3 (i chia sẻ chung function scope)</span>
+}
+        </div>
+
+        <p><strong>Sửa lỗi bằng let:</strong></p>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+<span class="keyword">for</span> (<span class="keyword">let</span> i = 0; i &lt; 3; i++) {
+  <span class="func">setTimeout</span>(() =&gt; <span class="func">console.log</span>(i), 1000);
+  <span class="comment">// In ra: 0, 1, 2 (i có block scope riêng từng lần lặp)</span>
+}
+        </div>
+
+        <div class="note-box">
+          <strong>Temporal Dead Zone (TDZ):</strong> Với <code>let</code> và <code>const</code>,
+          nếu truy cập biến trước dòng khai báo sẽ gây <code>ReferenceError</code>.
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== CÂU 4 ==================== -->
+    <section class="question-card" id="cau4">
+      <div class="question-header">
+        <span class="q-badge">Câu 4 • 10 điểm</span>
+        <h2>Event Delegation trong JavaScript</h2>
+      </div>
+      <div class="question-body">
+        <div class="section-title">🔹 Khái niệm</div>
+        <p>
+          <strong>Event Delegation (Ủy quyền sự kiện)</strong> là kỹ thuật lợi dụng cơ chế
+          <strong>Event Bubbling</strong> (sự kiện nổi bọt từ phần tử con lên phần tử cha)
+          để gắn chỉ <strong>1 Event Listener</strong> vào phần tử cha
+          thay vì gắn nhiều listener vào từng phần tử con.
+        </p>
+
+        <div class="section-title">🔹 Ví dụ ứng dụng cho Dynamic List</div>
+        <div class="code-block">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+document.<span class="func">getElementById</span>(<span class="string">'myList'</span>)
+  .<span class="func">addEventListener</span>(<span class="string">'click'</span>, <span class="keyword">function</span>(e) {
+    <span class="keyword">if</span> (e.target && e.target.nodeName === <span class="string">'LI'</span>) {
+      <span class="func">console.log</span>(<span class="string">'Bạn đã click vào item:'</span>, e.target.textContent);
+    }
+  });
+        </div>
+
+        <!-- Demo tương tác -->
+        <div class="demo-wrapper">
+          <div class="demo-label">Demo Event Delegation – Click vào các item bên dưới</div>
+          <ul id="myList" style="list-style: none; padding: 0; margin: 0;">
+            <li style="padding: 10px 14px; background: #1e293b; margin-bottom: 6px; border-radius: 8px; cursor: pointer; border: 1px solid #334155;">Item 1 – HTML</li>
+            <li style="padding: 10px 14px; background: #1e293b; margin-bottom: 6px; border-radius: 8px; cursor: pointer; border: 1px solid #334155;">Item 2 – CSS</li>
+            <li style="padding: 10px 14px; background: #1e293b; margin-bottom: 6px; border-radius: 8px; cursor: pointer; border: 1px solid #334155;">Item 3 – JavaScript</li>
+          </ul>
+          <p id="clickResult" style="margin-top: 12px; color: var(--primary); font-size: 0.9rem; min-height: 24px;"></p>
+          <button onclick="addNewItem()" style="margin-top: 8px; padding: 8px 16px; background: var(--primary); color: #0f172a; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+            + Thêm item mới
+          </button>
+        </div>
+
+        <div class="section-title">🔹 Lợi ích</div>
+        <ul>
+          <li>
+            <strong>Tối ưu hiệu suất & Bộ nhớ:</strong>
+            Giảm số lượng event listener được khởi tạo trong RAM.
+          </li>
+          <li>
+            <strong>Xử lý phần tử động:</strong>
+            Hỗ trợ các thẻ <code>&lt;li&gt;</code> được thêm mới bằng JS sau khi trang đã load
+            mà không cần phải gọi lại hàm gán sự kiện.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    Ghi chú ôn tập Frontend • HTML + CSS + JavaScript
+  </footer>
+
+  <script>
+    // ===== Active nav link khi scroll =====
+    const sections = document.querySelectorAll(".question-card");
+    const navLinks = document.querySelectorAll(".nav-link");
+
+    function updateActiveNav() {
+      let current = "";
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop - 120;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute("id");
+        }
+      });
+
+      navLinks.forEach((link) => {
+        link.classList.remove("active");
+        if (link.getAttribute("href") === `#${current}`) {
+          link.classList.add("active");
+        }
+      });
+    }
+
+    window.addEventListener("scroll", updateActiveNav);
+    updateActiveNav();
+
+    // ===== Copy code =====
+    function copyCode(btn) {
+      const codeBlock = btn.parentElement;
+      const text = codeBlock.innerText.replace("Copy", "").trim();
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = "Copied!";
+        setTimeout(() => (btn.textContent = "Copy"), 1500);
+      });
+    }
+
+    // ===== Event Delegation Demo (Câu 4) =====
+    const myList = document.getElementById("myList");
+    const clickResult = document.getElementById("clickResult");
+
+    myList.addEventListener("click", function (e) {
+      if (e.target && e.target.nodeName === "LI") {
+        clickResult.textContent = `Bạn đã click vào: "${e.target.textContent}"`;
+        // Highlight nhẹ
+        e.target.style.borderColor = "#38bdf8";
+        setTimeout(() => {
+          e.target.style.borderColor = "#334155";
+        }, 600);
+      }
+    });
+
+    // Thêm item mới để chứng minh Event Delegation vẫn hoạt động
+    let itemCount = 3;
+    function addNewItem() {
+      itemCount++;
+      const li = document.createElement("li");
+      li.textContent = `Item ${itemCount} – Được thêm động`;
+      li.style.cssText =
+        "padding: 10px 14px; background: #1e293b; margin-bottom: 6px; border-radius: 8px; cursor: pointer; border: 1px solid #334155;";
+      myList.appendChild(li);
+    }
+  </script>
+</body>
+</html>

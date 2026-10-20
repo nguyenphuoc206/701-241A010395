@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký tài khoản</title>
+  <style>
+    :root {
+      --bg: #f0f4f8;
+      --card: #ffffff;
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --radius: 12px;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      line-height: 1.5;
+    }
+
+    .form-wrapper {
+      width: 100%;
+      max-width: 420px;
+      background: var(--card);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 36px 28px;
+    }
+
+    .form-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .form-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .form-header p {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+
+    .form-group input.error {
+      border-color: var(--danger);
+    }
+
+    .error-msg {
+      display: none;
+      color: var(--danger);
+      font-size: 0.82rem;
+      margin-top: 5px;
+    }
+
+    .error-msg.show {
+      display: block;
+    }
+
+    .checkbox-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .checkbox-group input {
+      margin-top: 3px;
+      width: 18px;
+      height: 18px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .checkbox-group label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .checkbox-group a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .checkbox-group a:hover {
+      text-decoration: underline;
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 13px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .submit-btn:hover {
+      background: var(--primary-hover);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .success-box {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: var(--radius);
+      margin-top: 20px;
+    }
+
+    .success-box.show {
+      display: block;
+    }
+
+    .success-box h3 {
+      color: var(--success);
+      margin-bottom: 6px;
+      font-size: 1.15rem;
+    }
+
+    .success-box p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .password-hint {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    @media (max-width: 480px) {
+      .form-wrapper {
+        padding: 28px 20px;
+      }
+
+      .form-header h1 {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h1>Đăng ký tài khoản</h1>
+      <p>Điền thông tin để tạo tài khoản mới</p>
+    </div>
+
+    <form id="registerForm" novalidate>
+      <!-- Tên -->
+      <div class="form-group">
+        <label for="fullName">Họ và tên</label>
+        <input type="text" id="fullName" placeholder="Nguyễn Văn A" autocomplete="name">
+        <div class="error-msg" id="nameError">Vui lòng nhập họ tên (ít nhất 2 ký tự).</div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="email@example.com" autocomplete="email">
+        <div class="error-msg" id="emailError">Email không hợp lệ.</div>
+      </div>
+
+      <!-- Mật khẩu -->
+      <div class="form-group">
+        <label for="password">Mật khẩu</label>
+        <input type="password" id="password" placeholder="••••••••" autocomplete="new-password">
+        <div class="password-hint">Tối thiểu 8 ký tự, gồm chữ hoa, chữ thường và số.</div>
+        <div class="error-msg" id="passwordError">Mật khẩu chưa đủ mạnh.</div>
+      </div>
+
+      <!-- Checkbox điều khoản -->
+      <div class="checkbox-group">
+        <input type="checkbox" id="agreeTerms">
+        <label for="agreeTerms">
+          Tôi đồng ý với <a href="#" onclick="return false;">Điều khoản sử dụng</a>
+        </label>
+      </div>
+      <div class="error-msg" id="termsError" style="margin-top: -12px; margin-bottom: 16px;">
+        Bạn phải đồng ý với điều khoản.
+      </div>
+
+      <button type="submit" class="submit-btn">Đăng ký</button>
+    </form>
+
+    <div class="success-box" id="successBox">
+      <h3>Đăng ký thành công!</h3>
+      <p>Thông tin đã được lưu vào trình duyệt của bạn.</p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("registerForm");
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const agreeTerms = document.getElementById("agreeTerms");
+    const successBox = document.getElementById("successBox");
+
+    // Các phần tử thông báo lỗi
+    const nameError = document.getElementById("nameError");
+    const emailError = document.getElementById("emailError");
+    const passwordError = document.getElementById("passwordError");
+    const termsError = document.getElementById("termsError");
+
+    // Regex kiểm tra email cơ bản
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Regex mật khẩu: ít nhất 8 ký tự, có chữ hoa, chữ thường, số
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+    // Hàm hiển thị / ẩn lỗi
+    function showError(input, errorEl, message) {
+      input.classList.add("error");
+      errorEl.textContent = message;
+      errorEl.classList.add("show");
+    }
+
+    function hideError(input, errorEl) {
+      input.classList.remove("error");
+      errorEl.classList.remove("show");
+    }
+
+    // Validate từng trường
+    function validateName() {
+      const value = fullNameInput.value.trim();
+      if (value.length < 2) {
+        showError(fullNameInput, nameError, "Vui lòng nhập họ tên (ít nhất 2 ký tự).");
+        return false;
+      }
+      hideError(fullNameInput, nameError);
+      return true;
+    }
+
+    function validateEmail() {
+      const value = emailInput.value.trim();
+      if (!emailRegex.test(value)) {
+        showError(emailInput, emailError, "Email không hợp lệ.");
+        return false;
+      }
+      hideError(emailInput, emailError);
+      return true;
+    }
+
+    function validatePassword() {
+      const value = passwordInput.value;
+      if (!passwordRegex.test(value)) {
+        showError(
+          passwordInput,
+          passwordError,
+          "Mật khẩu phải ≥ 8 ký tự, có chữ hoa, chữ thường và số."
+        );
+        return false;
+      }
+      hideError(passwordInput, passwordError);
+      return true;
+    }
+
+    function validateTerms() {
+      if (!agreeTerms.checked) {
+        termsError.classList.add("show");
+        return false;
+      }
+      termsError.classList.remove("show");
+      return true;
+    }
+
+    // Xử lý sự kiện submit
+    form.addEventListener("submit", function (e) {
+      e.preventDefault(); // Ngăn form gửi đi theo cách mặc định
+
+      // Ẩn thông báo thành công cũ (nếu có)
+      successBox.classList.remove("show");
+
+      // Chạy tất cả validation
+      const isNameValid = validateName();
+      const isEmailValid = validateEmail();
+      const isPasswordValid = validatePassword();
+      const isTermsValid = validateTerms();
+
+      // Chỉ tiếp tục khi tất cả đều hợp lệ
+      if (isNameValid && isEmailValid && isPasswordValid && isTermsValid) {
+        // Chuẩn bị dữ liệu cần lưu
+        const userData = {
+          fullName: fullNameInput.value.trim(),
+          email: emailInput.value.trim(),
+          // Lưu ý: trong thực tế không nên lưu mật khẩu dạng plain text
+          password: passwordInput.value,
+          registeredAt: new Date().toISOString()
+        };
+
+        // Lưu vào LocalStorage
+        try {
+          // Lấy danh sách người dùng hiện có (nếu có)
+          const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+
+          // Kiểm tra email đã tồn tại chưa
+          const emailExists = existingUsers.some(
+            (user) => user.email.toLowerCase() === userData.email.toLowerCase()
+          );
+
+          if (emailExists) {
+            showError(emailInput, emailError, "Email này đã được đăng ký.");
+            return;
+          }
+
+          // Thêm người dùng mới
+          existingUsers.push(userData);
+          localStorage.setItem("users", JSON.stringify(existingUsers));
+
+          // Hiển thị thông báo thành công
+          successBox.classList.add("show");
+
+          // Reset form
+          form.reset();
+          // Xóa class error nếu còn
+          [fullNameInput, emailInput, passwordInput].forEach((el) =>
+            el.classList.remove("error")
+          );
+        } catch (err) {
+          alert("Không thể lưu dữ liệu. Vui lòng thử lại.");
+          console.error(err);
+        }
+      }
+    });
+
+    // Validate real-time khi người dùng rời khỏi trường (blur)
+    fullNameInput.addEventListener("blur", validateName);
+    emailInput.addEventListener("blur", validateEmail);
+    passwordInput.addEventListener("blur", validatePassword);
+    agreeTerms.addEventListener("change", validateTerms);
+  </script>
+</body>
+</html>

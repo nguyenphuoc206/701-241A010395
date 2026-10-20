@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kết quả bài thi – Nguyễn Văn Phước</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #3b82f6;
+      --radius: 16px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg);
+      background-image: 
+        linear-gradient(rgba(15, 23, 42, 0.97), rgba(15, 23, 42, 0.97)),
+        linear-gradient(#1e293b 1px, transparent 1px),
+        linear-gradient(90deg, #1e293b 1px, transparent 1px);
+      background-size: 100% 100%, 40px 40px, 40px 40px;
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .container { width: 100%; max-width: 480px; }
+
+    .header { text-align: center; margin-bottom: 28px; }
+    .header h1 { font-size: 1.5rem; font-weight: 700; margin-bottom: 4px; }
+    .header .name { color: #38bdf8; font-size: 1.15rem; font-weight: 600; }
+    .header p { color: var(--muted); font-size: 0.9rem; margin-top: 6px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-bottom: 14px;
+    }
+
+    .card-title .info {
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      border: 1.5px solid var(--muted);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--muted);
+      cursor: help;
+    }
+
+    .progress-wrapper {
+      position: relative;
+      height: 12px;
+      background: #334155;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #4ade80);
+      border-radius: 999px;
+      transition: width 1.2s ease;
+    }
+
+    .percent-badge {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #1e293b;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 6px;
+      border: 1px solid #475569;
+    }
+
+    .stats-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .stats-header h3 { font-size: 0.95rem; font-weight: 500; }
+    .stats-header .total { color: var(--muted); font-size: 0.9rem; }
+
+    .stats-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .stat-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .stat-item.correct {
+      background: rgba(34, 197, 94, 0.15);
+      color: #4ade80;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .stat-item.wrong {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .stat-item.time {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #38bdf8;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .back-link:hover { text-decoration: underline; }
+
+    footer {
+      margin-top: 32px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+
+    @media (max-width: 400px) {
+      .stats-row { flex-direction: column; }
+      .stat-item { justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Kết quả bài thi</h1>
+      <div class="name">Nguyễn Văn Phước</div>
+      <p>Thống kê hiệu suất làm bài</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        Câu đúng
+        <span class="info" title="Tỷ lệ câu trả lời đúng">i</span>
+      </div>
+      <div class="progress-wrapper">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="percent-badge">90%</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="stats-header">
+        <h3>Số liệu thống kê hiệu suất</h3>
+        <span class="total">100 câu hỏi</span>
+      </div>
+      <div class="stats-row">
+        <div class="stat-item correct">✓ 90 Câu đúng</div>
+        <div class="stat-item wrong">✗ 10 Sai</div>
+        <div class="stat-item time">⏱ 16 s thời gian/câu hỏi</div>
+      </div>
+    </div>
+
+    <a href="ThongTinDiemDanh.html" class="back-link">→ Xem tài liệu Google Drive</a>
+  </div>
+
+  <footer>Nguyễn Văn Phước • Kết quả bài thi</footer>
+
+  <script>
+    window.addEventListener("load", () => {
+      const bar = document.getElementById("progressBar");
+      setTimeout(() => { bar.style.width = "90%"; }, 200);
+    });
+  </script>
+</body>
+</html>
